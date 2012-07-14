@@ -1,0 +1,19 @@
+Installation:
+
+1) Download project and decompress it to the desired folder.
+2) Using the terminal at the project root ( where the server.js file lives ) run:
+"npm install" (without the quotes).
+wait for the dependencies to install.
+3) run "node server.js"
+
+Notes:
+* Videos must be placed under /public/videos/FolderName
+* All videos must be inside a folder (you can have as many folders as you want at root level).
+* You can access the server using: http://IPADDRESS:3000
+
+
+
+
+
+
+This file was modified by PyCharm 2.5.2 for binding GitHub repository

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Server</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+</head>
+<body>
+
+<script type="ZenjiTemplate/HTML" id="FolderItemScript">
+    <li><a href="#" class="FolderItem">{{FolderName}}</a></li>
+</script>
+
+<script type="ZenjiTemplate/HTML" id="VideoItemScript">
+    <li><a class="VideoItem" href="http://10.0.0.120:3001/videos/{{VideoURL}}">{{VideoName}}</a></li>
+</script>
+
+<div data-role="page" id="HomePageDiv">
+    <div data-role="header">
+        <h1>Video Server</h1>
+    </div>
+    <div data-role="content">
+        <ul data-role="listview" data-inset="true" data-filter="true" id="FoldersList">
+        </ul>
+    </div>
+</div>
+
+
+<div data-role="page" id="FolderContentsDiv" data-add-back-btn="true">
+    <div data-role="header">
+        <h1>Video Server</h1>
+    </div>
+    <div data-role="content">
+        <ul data-role="listview" data-inset="true" data-filter="true" id="VideosList">
+        </ul>
+    </div>
+</div>
+
+
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+<script src="javascripts/ZenjiTemplateEngine.js"></script>
+<script type="text/javascript">
+
+    $.ajaxSetup({ async:false });
+
+    $.get('/ViewFolders',function(data){
+        $('script#FolderItemScript').ZenjiTemplate(data).appendTo('#FoldersList');
+
+        $('a.FolderItem').on('click',function(){
+            $.post('/VideosInFolder',{ FolderName: $(this).text() },function(videosData){
+
+                $('#VideosList').html('');
+
+                $('script#VideoItemScript').ZenjiTemplate(videosData).appendTo('#VideosList');
+
+                $.mobile.changePage("#FolderContentsDiv", "slideup");
+
+                $('ul#VideosList').listview( "refresh" );
+
+            });
+        });
+    });
+
+</script>
+
+</body>
+</html>

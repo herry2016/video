@@ -2,6 +2,14 @@ var cluster = require('cluster');
 var express = require('express');
 var fs = require('fs');
 
+function folderSort(a,b){
+  return a.FolderName>b.FolderName ? 1 : -1;
+}
+
+function videoSort(a,b){
+  return a.VideoName>b.VideoName ? 1 : -1;
+}
+
 
 var WebServer = {
     ThreadCount: require('os').cpus().length,
@@ -50,6 +58,8 @@ else{
                 foldersList.push({ FolderName: file });
             });
 
+            foldersList = foldersList.sort(folderSort);
+
             res.send(foldersList)
         });
     });
@@ -65,6 +75,8 @@ else{
                     VideoName: file
                 });
             });
+
+            videosList = videosList.sort(videoSort);
 
             res.send(videosList)
         });

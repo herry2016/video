@@ -12,7 +12,7 @@
 </script>
 
 <script type="ZenjiTemplate/HTML" id="VideoItemScript">
-    <li><a class="VideoItem" href="http://10.0.0.120:3001/videos/{{VideoURL}}">{{VideoName}}</a></li>
+    <li><a class="VideoItem" href="http://{{Host}}:3001/videos/{{VideoURL}}">{{VideoName}}</a></li>
 </script>
 
 <div data-role="page" id="HomePageDiv">
@@ -51,6 +51,12 @@
             $.post('/VideosInFolder',{ FolderName: $(this).text() },function(videosData){
 
                 $('#VideosList').html('');
+
+                for(var i =0;i<videosData.length;i++){
+                  videosData[i] = $.extend(videosData[i],{
+                    Host: location.host.split(':')[0]
+                  });
+                }
 
                 $('script#VideoItemScript').ZenjiTemplate(videosData).appendTo('#VideosList');
 
